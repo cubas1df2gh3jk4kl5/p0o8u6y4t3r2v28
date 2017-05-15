@@ -1,0 +1,106 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+		<title>Combinator</title>
+		
+		<!--[if lte IE 8]><script src="css/ie/html5shiv.js"></script><![endif]-->
+		<script src="js/jquery.min.js"></script>
+		<script type="text/javascript" src="js/jquery.leanModal.min.js"></script>
+		<script src="js/skel.min.js"></script>
+		<script src="js/init.js"></script>
+		
+		<noscript>
+			<link rel="stylesheet" href="css/style.css" />
+		</noscript>
+		<link rel="shortcut icon" href="images/icon.ico">
+	
+	</head>
+	<body>   
+		<div >
+			
+			<form name="test" action="JavaScript:getSyn()">
+			  <p><b>Введите слова через пробел</b><br>
+			   <input id="words" type="text" size="40">
+			  </p>
+			  <p><input type="submit" value="Жми">
+			   <input type="reset" value="Очистить"></p>
+
+			    <p>Полученные комбинации<Br>
+			   <textarea id="combinations" cols="80" rows="15"></textarea></p>
+			 </form>
+   	
+
+   		</div>
+
+		
+
+			<script type="text/javascript">
+			
+			function getSyn(){
+			var slovar= [
+			['а','б','в','г','д','е','ж','з'],
+			['машина','мотоцикл','велосипед','самокат'],
+			['дерево','ящик','ку','морда'],
+			['ноут','смартфон'],
+			['человек','мужчина','женщина'],
+			['кружка','ложка','вилка']
+			];
+
+
+			var slova = $("#words").val().split(' ');
+			//индексы строчек, в которых можно найти синонимы.
+			var indexRow = []; 
+			$.each(slova, function (index, value) {
+  				
+  				$.each(slovar , function (indexSlova, valueSlova){
+  					$.each(valueSlova , function (indexSlovaRow, valueSlovaRow){
+  						if (value == valueSlovaRow){
+  							indexRow[index]=indexSlova;
+  						}
+
+  					});
+  				});
+  			});
+
+		
+			//составляем словарь для генерации
+			var slovarForGenerating=[];
+
+			$.each(indexRow , function (index, value){
+	  			
+				$.each(slovar[value] , function (index2, value2){
+	  						if (slova[index] != value2){
+	  							if(!slovarForGenerating[index]){
+	  								slovarForGenerating[index] = [];
+	  							}
+	  								slovarForGenerating[index].push(value2);
+	  							
+	  						}
+	  				});  						
+	  		});
+
+
+	  		function allPossibleCases(arr) {
+			  if (arr.length == 1) {
+			    return arr[0];
+			  } else {
+			    var result = [];
+			    var allCasesOfRest = allPossibleCases(arr.slice(1));  // recur with the rest of array
+			    for (var i = 0; i < allCasesOfRest.length; i++) {
+			      for (var j = 0; j < arr[0].length; j++) {
+			        result.push(arr[0][j] + allCasesOfRest[i]);
+			      }
+			    }
+			    return result;
+			  }
+
+			}
+
+			var result = allPossibleCases(slovarForGenerating);
+			$("#combinations").val(result.join("\n"));
+
+		};		
+
+			</script>
+	</body>
+</html>
