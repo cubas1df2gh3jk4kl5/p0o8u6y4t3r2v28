@@ -62,8 +62,11 @@
   				$.each(slovar , function (indexSlova, valueSlova){
   					$.each(valueSlova , function (indexSlovaRow, valueSlovaRow){
   						if (value == valueSlovaRow){
-  							indexRow[index]=indexSlova;
-  						}
+  							if(!indexRow[index]){
+	  								indexRow[index] = [];
+	  							}
+	  								indexRow[index].push(indexSlova);
+	  						}
 
   					});
   				});
@@ -74,16 +77,17 @@
 			var slovarForGenerating=[];
 
 			$.each(indexRow , function (index, value){
-	  			
-				$.each(slovar[value] , function (index2, value2){
-	  						if (slova[index] != value2){
-	  							if(!slovarForGenerating[index]){
-	  								slovarForGenerating[index] = [];
-	  							}
-	  								slovarForGenerating[index].push(value2);
-	  							
-	  						}
-	  				});  						
+	  			$.each(value , function (indexOfIndex, valueofValue){
+					$.each(slovar[valueofValue] , function (index2, value2){
+								if (slova[index] != value2){
+									if(!slovarForGenerating[index]){
+										slovarForGenerating[index] = [];
+									}
+										slovarForGenerating[index].push(value2);
+									
+								}
+						});
+					});  						
 	  		});
 
 
