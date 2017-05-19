@@ -37,7 +37,7 @@
 			<script type="text/javascript">
 			
 			function getSyn(){
-			var slovar= [
+			var dictionary= [
 			["нос","ухо","глаз","рот","шея","лоб","око" ],
 			["носик","ушко","глазик","ротик","лобик"],
 			["кря","ку","кар","ко","га","чирик"],
@@ -431,23 +431,36 @@
 			];
 
 
-			var slova = $("#words").val().split(' ');
+			var words = $("#words").val().split(' ');
+			
+			// dictionary, words
+			// output = [0 :[1], 1: [0,2], 2: [-1]]
+			// -1 means, that this word doesnt exist in dictionary
+			function getIndexWhereEachWordExist(dic, words) {
+				var indexRow = []
+					$.each(words, function (index, value) {
+						$.each(dic , function (indexWord, valueWord){
+							$.each(valueWord , function (indexWordRow, valueWordRow){
+								if (value.toLowerCase() == valueWordRow.toLowerCase()){
+									if(!indexRow[index]){
+											indexRow[index] = [];
+										}
+											indexRow[index].push(indexWord);
+									}
+							});
+						});
+						if(!indexRow[index]){
+							indexRow[index] = [];						
+							indexRow[index].push(-1);
+						}
+				});
+			return indexRow ;
+			}
+			
 			//индексы строчек, в которых можно найти синонимы.
-			var indexRow = []; 
-			$.each(slova, function (index, value) {
-  				
-  				$.each(slovar , function (indexSlova, valueSlova){
-  					$.each(valueSlova , function (indexSlovaRow, valueSlovaRow){
-  						if (value == valueSlovaRow){
-  							if(!indexRow[index]){
-	  								indexRow[index] = [];
-	  							}
-	  								indexRow[index].push(indexSlova);
-	  						}
-
-  					});
-  				});
-  			});
+			var indexRow = getIndexWhereEachWordExist(dictionary, words); 
+			
+			
 
 		
 			//составляем словарь для генерации
@@ -455,8 +468,13 @@
 
 			$.each(indexRow , function (index, value){
 	  			$.each(value , function (indexOfIndex, valueofValue){
-					$.each(slovar[valueofValue] , function (index2, value2){
-								if (slova[index] != value2){
+					if(valueofValue == -1){
+						slovarForGenerating[index] = [];
+						slovarForGenerating[index].push("-");
+						return true;
+					}
+					$.each(dictionary[valueofValue] , function (index2, value2){
+								if (words[index] != value2){
 									if(!slovarForGenerating[index]){
 										slovarForGenerating[index] = [];
 									}
