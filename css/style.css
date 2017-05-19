@@ -549,16 +549,9 @@
 
 /* Button */
 
+
 	input[type="submit"],
-	input[type="reset"],
-	input[type="button"],
-	#greenButton{
-		background: #3c948b;
-	}
-	#redButton{
-		background: #df6c4f;
-	}
-	.button {
+	input[type="button"], #greenButton.button{
 		-moz-appearance: none;
 		-webkit-appearance: none;
 		-o-appearance: none;
@@ -570,6 +563,35 @@
 		-ms-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 		transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
 		background: #3c948b;
+		border-radius: 4px;
+		border: 0;
+		color: white;
+		cursor: pointer;
+		display: inline-block;
+		font-size: 0.9em;
+		font-weight: 700;
+		letter-spacing: 0.125em;
+		line-height: 3.25em;
+		min-width: 15em;
+		padding: 0 1.5em;
+		text-align: center;
+		text-decoration: none;
+		text-transform: uppercase;
+	}
+	
+	input[type="reset"],
+	 #redButton.button{
+		-moz-appearance: none;
+		-webkit-appearance: none;
+		-o-appearance: none;
+		-ms-appearance: none;
+		appearance: none;
+		-moz-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+		-webkit-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+		-o-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+		-ms-transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+		transition: color 0.2s ease-in-out, background-color 0.2s ease-in-out;
+		background: #df6c4f;
 		border-radius: 4px;
 		border: 0;
 		color: white;
